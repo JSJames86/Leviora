@@ -1,26 +1,59 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-primary: #7bb8d4;
+  --color-secondary: #a8d4e8;
+  --color-accent: #c5e4f3;
+  --color-background: #fafaf7;
+  --color-surface: #ffffff;
+  --color-text-primary: #1c2b35;
+  --color-text-secondary: #6b8a99;
+  --color-border: #e8f0f4;
+  --color-success: #7bc4a0;
+  --color-warning: #f0d9a8;
+  --color-error: #e8a0a0;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+  --color-accent: var(--color-accent);
+  --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-border: var(--color-border);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-error: var(--color-error);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-heading: var(--font-cormorant);
+  --font-sans: var(--font-inter);
+
+  --radius-card: 12px;
+
+  --shadow-soft: 0 4px 24px -4px rgba(28, 43, 53, 0.08);
+  --shadow-soft-lg: 0 12px 40px -8px rgba(28, 43, 53, 0.12);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-inter), sans-serif;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-cormorant), serif;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-text-primary);
+}
+</content>
+</invoke>
