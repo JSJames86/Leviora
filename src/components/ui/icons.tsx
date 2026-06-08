@@ -205,3 +205,13 @@ export function AlertIcon(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+export function GaugeIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M4 14a8 8 0 1 1 16 0" />
+      <path d="M12 14 15.5 9" />
+      <path d="M4 14h1.5M18.5 14H20M6.5 8 7.5 9M17.5 8l-1 1" />
+    </svg>
+  );
+}
