@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useRef, useEffect, useState, useCallback } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -78,54 +78,27 @@ function Nav() {
   );
 }
 
-/* ── Hero video background with crossfade ── */
+/* ── Hero video — key-based remount so autoPlay fires on every switch (iOS-safe) ── */
 function HeroVideo() {
-  const [active, setActive] = useState(0);
-  const [next, setNext] = useState<number | null>(null);
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([null, null]);
-
-  const advance = useCallback(() => {
-    const nextIdx = (active + 1) % VIDEOS.length;
-    setNext(nextIdx);
-    const nextVid = videoRefs.current[nextIdx];
-    if (nextVid) {
-      nextVid.currentTime = 0;
-      nextVid.play().catch(() => {});
-    }
-    // after crossfade completes, make next the active
-    setTimeout(() => {
-      setActive(nextIdx);
-      setNext(null);
-    }, 1200);
-  }, [active]);
-
-  useEffect(() => {
-    const vid = videoRefs.current[0];
-    if (vid) vid.play().catch(() => {});
-  }, []);
+  const [index, setIndex] = useState(0);
 
   return (
     <div className="absolute inset-0 scale-110">
-      {VIDEOS.map((src, i) => {
-        const isActive = i === active;
-        const isNext = i === next;
-        if (!isActive && !isNext) return null;
-        return (
-          <motion.video
-            key={src}
-            ref={(el) => { videoRefs.current[i] = el; }}
-            src={src}
-            muted
-            playsInline
-            loop={false}
-            onEnded={isActive ? advance : undefined}
-            initial={{ opacity: isActive ? 1 : 0 }}
-            animate={{ opacity: isNext ? 1 : isActive ? 1 : 0 }}
-            transition={{ duration: 1.2, ease: "easeInOut" }}
-            className="absolute inset-0 w-full h-full object-cover object-center"
-          />
-        );
-      })}
+      <AnimatePresence initial={false}>
+        <motion.video
+          key={index}
+          src={VIDEOS[index]}
+          autoPlay
+          muted
+          playsInline
+          onEnded={() => setIndex((i) => (i + 1) % VIDEOS.length)}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.2, ease: "easeInOut" }}
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+      </AnimatePresence>
       {/* Gradient overlay for text legibility */}
       <div
         className="absolute inset-0"
@@ -186,7 +159,7 @@ export default function LandingPage() {
       <section ref={heroRef} className="relative h-screen overflow-hidden">
         <HeroVideo />
 
-        {/* Top-left logo */}
+        {/* Top-left logo — screen blend removes the white box on dark backgrounds */}
         <motion.div
           initial={{ opacity: 0, x: -16 }}
           animate={{ opacity: 1, x: 0 }}
@@ -199,7 +172,7 @@ export default function LandingPage() {
             width={140}
             height={56}
             className="h-10 sm:h-12 w-auto"
-            style={{ filter: "invert(1) brightness(2)", opacity: 0.88 }}
+            style={{ filter: "invert(1)", mixBlendMode: "screen", opacity: 0.9 }}
             priority
           />
         </motion.div>
