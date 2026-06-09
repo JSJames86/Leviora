@@ -165,12 +165,12 @@ export default function LandingPage() {
           className="absolute top-6 left-6 sm:top-8 sm:left-8 z-10"
         >
           <Image
-            src="/logo-black.png"
+            src="/logo-white.png"
             alt="Leviora Ventures"
             width={140}
             height={56}
             className="h-10 sm:h-12 w-auto"
-            style={{ filter: "invert(1)", mixBlendMode: "screen", opacity: 0.9 }}
+            style={{ opacity: 0.9 }}
             priority
           />
         </motion.div>
@@ -465,7 +465,7 @@ export default function LandingPage() {
       {/* ── Footer ── */}
       <footer className="border-t border-[#1a3347]/[0.08]" style={{ background: "#e8f5fc" }}>
         <div className="mx-auto max-w-7xl px-6 h-14 flex items-center justify-between">
-          <Image src="/logo-black.png" alt="Leviora Ventures" width={80} height={32} className="h-6 w-auto opacity-35" style={{ mixBlendMode: "multiply" }} />
+          <Image src="/logo-black.png" alt="Leviora Ventures" width={80} height={32} className="h-6 w-auto opacity-40" />
           <p className="text-xs tracking-wider text-[#1a3347]/30 uppercase">© {new Date().getFullYear()} Leviora Ventures</p>
         </div>
       </footer>
