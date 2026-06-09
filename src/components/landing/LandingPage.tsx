@@ -99,7 +99,6 @@ function HeroVideo() {
           className="absolute inset-0 w-full h-full object-cover object-center"
         />
       </AnimatePresence>
-      {/* Gradient overlay for text legibility */}
       <div
         className="absolute inset-0"
         style={{
@@ -159,7 +158,6 @@ export default function LandingPage() {
       <section ref={heroRef} className="relative h-screen overflow-hidden">
         <HeroVideo />
 
-        {/* Top-left logo — screen blend removes the white box on dark backgrounds */}
         <motion.div
           initial={{ opacity: 0, x: -16 }}
           animate={{ opacity: 1, x: 0 }}
@@ -177,31 +175,31 @@ export default function LandingPage() {
           />
         </motion.div>
 
-        {/* Vertical "VENTURES" — right side */}
         <motion.div
           initial={{ opacity: 0, x: 16 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
           className="absolute right-6 sm:right-8 top-1/2 z-10 select-none"
-          style={{
-            writingMode: "vertical-rl",
-            transform: "translateY(-50%) rotate(180deg)",
-          }}
+          style={{ writingMode: "vertical-rl", transform: "translateY(-50%) rotate(180deg)" }}
         >
           <span className="font-heading text-sm sm:text-base tracking-[0.45em] uppercase text-white/50">
             Ventures
           </span>
         </motion.div>
 
-        {/* Bottom-left headline + CTAs */}
         <div className="absolute bottom-0 left-0 right-0 z-10 px-6 sm:px-10 pb-12 sm:pb-14">
           <h1
             ref={headlineRef}
-            className="font-heading font-medium text-white leading-[1.05] mb-8 opacity-0"
+            className="font-heading font-medium text-white leading-[1.05] mb-3 opacity-0"
             style={{ fontSize: "clamp(2.6rem,6.5vw,5.2rem)" }}
           >
             Business dreams,<br />elevated.
           </h1>
+          <p className="text-white/55 text-sm mb-8 max-w-sm leading-relaxed opacity-0" ref={undefined}
+            style={{ opacity: 1 }}
+          >
+            Helping startups, nonprofits, and enterprises turn ambitious goals into measurable outcomes.
+          </p>
 
           <div ref={ctaRef} className="flex flex-wrap gap-3 opacity-0">
             <Link
@@ -214,12 +212,11 @@ export default function LandingPage() {
               href="mailto:hello@levioraventures.com"
               className="inline-flex items-center justify-center text-xs font-semibold tracking-wider uppercase px-6 py-3 border border-white/30 text-white/80 hover:bg-white/10 transition-colors rounded-sm"
             >
-              Get in Touch
+              Schedule a Discovery Call
             </a>
           </div>
         </div>
 
-        {/* Scroll to explore */}
         <div
           ref={scrollLabelRef}
           className="absolute bottom-6 right-6 sm:right-10 z-10 flex items-center gap-3 opacity-0"
@@ -258,6 +255,47 @@ export default function LandingPage() {
 
       <div className="mx-auto max-w-6xl px-6"><div className="border-t border-[#1a3347]/[0.07]" /></div>
 
+      {/* ── Who We Work With ── */}
+      <section className="mx-auto max-w-6xl px-6 py-32">
+        <FadeUp>
+          <p className="text-[10px] uppercase tracking-[0.28em] text-sky-600/60 mb-4">Who we work with</p>
+        </FadeUp>
+        <FadeUp delay={0.06}>
+          <h2 className="font-heading text-4xl sm:text-5xl font-medium text-[#0f2030] mb-16 max-w-lg leading-[1.1]">
+            Built for organizations that are serious about growth.
+          </h2>
+        </FadeUp>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
+          {[
+            {
+              label: "Startups",
+              desc: "Early-stage and growth-stage ventures building scalable foundations and executing on ambitious roadmaps.",
+            },
+            {
+              label: "Nonprofits",
+              desc: "Mission-driven organizations navigating growth, grant readiness, program delivery, and operational clarity.",
+            },
+            {
+              label: "Enterprises",
+              desc: "Established businesses seeking strategic alignment, process improvement, and transparent project execution.",
+            },
+            {
+              label: "Projects",
+              desc: "Specific initiatives — product launches, restructuring, grant cycles — that need dedicated strategy and support.",
+            },
+          ].map((item, i) => (
+            <FadeUp key={item.label} delay={i * 0.08}>
+              <div className="border-t-2 border-sky-400/30 pt-6">
+                <h3 className="font-heading text-xl font-medium text-[#0f2030] mb-3">{item.label}</h3>
+                <p className="text-sm text-[#1a3347]/50 leading-[1.8]">{item.desc}</p>
+              </div>
+            </FadeUp>
+          ))}
+        </div>
+      </section>
+
+      <div className="mx-auto max-w-6xl px-6"><div className="border-t border-[#1a3347]/[0.07]" /></div>
+
       {/* ── Services ── */}
       <section className="mx-auto max-w-6xl px-6 py-32">
         <FadeUp>
@@ -274,6 +312,92 @@ export default function LandingPage() {
                 <span className="font-heading text-5xl font-medium text-[#1a3347]/10 block mb-6">{item.num}</span>
                 <h3 className="font-heading text-2xl font-medium text-[#0f2030] mb-4">{item.title}</h3>
                 <p className="text-sm text-[#1a3347]/55 leading-[1.85]">{item.body}</p>
+              </div>
+            </FadeUp>
+          ))}
+        </div>
+      </section>
+
+      <div className="mx-auto max-w-6xl px-6"><div className="border-t border-[#1a3347]/[0.07]" /></div>
+
+      {/* ── Packages ── */}
+      <section className="mx-auto max-w-6xl px-6 py-32">
+        <FadeUp>
+          <p className="text-[10px] uppercase tracking-[0.28em] text-sky-600/60 mb-4">Our packages</p>
+        </FadeUp>
+        <FadeUp delay={0.06}>
+          <h2 className="font-heading text-4xl sm:text-5xl font-medium text-[#0f2030] mb-16 max-w-lg leading-[1.1]">
+            Engagements designed around your stage.
+          </h2>
+        </FadeUp>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+          {[
+            {
+              name: "Business Foundation",
+              tagline: "For organizations establishing their strategic footing.",
+              items: ["Strategic assessment", "Goal-setting & roadmap", "Portal setup & onboarding", "30-day execution plan"],
+            },
+            {
+              name: "Growth Acceleration",
+              tagline: "For teams ready to move from planning to measurable momentum.",
+              items: ["Full execution support", "Weekly milestone tracking", "Live portal reporting", "Monthly strategy reviews"],
+              featured: true,
+            },
+            {
+              name: "Grant Readiness",
+              tagline: "For nonprofits and mission-driven organizations pursuing funding.",
+              items: ["Documentation preparation", "Financial modeling", "Impact reporting", "Funder-ready deliverables"],
+            },
+          ].map((pkg, i) => (
+            <FadeUp key={pkg.name} delay={i * 0.1}>
+              <div
+                className="rounded-sm p-8 h-full flex flex-col"
+                style={{
+                  background: pkg.featured ? "#1a3347" : "rgba(255,255,255,0.6)",
+                  border: pkg.featured ? "none" : "1px solid rgba(26,51,71,0.08)",
+                }}
+              >
+                <div className="mb-6">
+                  <h3
+                    className="font-heading text-xl font-medium mb-2"
+                    style={{ color: pkg.featured ? "#ffffff" : "#0f2030" }}
+                  >
+                    {pkg.name}
+                  </h3>
+                  <p
+                    className="text-sm leading-[1.7]"
+                    style={{ color: pkg.featured ? "rgba(255,255,255,0.55)" : "rgba(26,51,71,0.5)" }}
+                  >
+                    {pkg.tagline}
+                  </p>
+                </div>
+                <ul className="space-y-3 mb-8 flex-1">
+                  {pkg.items.map((item) => (
+                    <li key={item} className="flex items-start gap-3">
+                      <span
+                        className="mt-1.5 w-1 h-1 rounded-full shrink-0"
+                        style={{ background: pkg.featured ? "rgba(255,255,255,0.4)" : "rgba(96,165,250,0.6)" }}
+                      />
+                      <span
+                        className="text-sm leading-[1.7]"
+                        style={{ color: pkg.featured ? "rgba(255,255,255,0.7)" : "rgba(26,51,71,0.6)" }}
+                      >
+                        {item}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href="mailto:hello@levioraventures.com"
+                  className="inline-flex items-center justify-center text-xs font-semibold tracking-wider uppercase px-5 py-2.5 rounded-sm transition-colors"
+                  style={{
+                    background: pkg.featured ? "rgba(255,255,255,0.12)" : "transparent",
+                    border: pkg.featured ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(26,51,71,0.2)",
+                    color: pkg.featured ? "rgba(255,255,255,0.85)" : "rgba(26,51,71,0.65)",
+                  }}
+                >
+                  Start a Conversation
+                </a>
               </div>
             </FadeUp>
           ))}
@@ -331,7 +455,7 @@ export default function LandingPage() {
                 Sign in to your portal
               </Link>
               <a href="mailto:hello@levioraventures.com" className="inline-flex items-center justify-center text-xs font-semibold tracking-wider uppercase px-8 py-3.5 rounded-sm border border-[#1a3347]/25 text-[#1a3347]/70 hover:border-[#1a3347]/50 hover:text-[#1a3347] transition-colors">
-                Get in touch
+                Schedule a Discovery Call
               </a>
             </div>
           </FadeUp>
