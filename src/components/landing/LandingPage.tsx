@@ -20,9 +20,9 @@ function FadeUp({
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 44 }}
+      initial={{ opacity: 0, y: 36 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.95, ease: [0.22, 1, 0.36, 1], delay }}
+      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay }}
       className={className}
     >
       {children}
@@ -30,63 +30,43 @@ function FadeUp({
   );
 }
 
-/* ── Line-by-line headline reveal ── */
-function AnimatedHeadline({ lines }: { lines: string[] }) {
-  return (
-    <>
-      {lines.map((line, li) => (
-        <div key={li} className="overflow-hidden">
-          <motion.div
-            initial={{ y: "110%" }}
-            animate={{ y: 0 }}
-            transition={{
-              duration: 1.15,
-              ease: [0.22, 1, 0.36, 1],
-              delay: 0.55 + li * 0.13,
-            }}
-          >
-            {line}
-          </motion.div>
-        </div>
-      ))}
-    </>
-  );
-}
-
-/* ── Sticky nav ── */
+/* ── Nav ── */
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => setScrolled(window.scrollY > 80);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
     <motion.header
-      animate={{
-        backgroundColor: scrolled ? "rgba(240,249,255,0.92)" : "rgba(0,0,0,0)",
-      }}
+      animate={{ backgroundColor: scrolled ? "rgba(240,249,255,0.93)" : "rgba(0,0,0,0)" }}
       transition={{ duration: 0.4 }}
       className="fixed top-0 inset-x-0 z-50 backdrop-blur-sm"
-      style={{ borderBottom: scrolled ? "1px solid rgba(100,170,220,0.15)" : "1px solid transparent" }}
+      style={{ borderBottom: scrolled ? "1px solid rgba(100,170,220,0.18)" : "1px solid transparent" }}
     >
-      <div className="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <Image
-          src="/logo-black.png"
-          alt="Leviora Ventures"
-          width={120}
-          height={48}
-          className="h-9 w-auto"
-          style={{ mixBlendMode: "multiply" }}
-          priority
-        />
+      <div className="mx-auto max-w-7xl px-6 h-14 flex items-center justify-between">
+        {/* Wordmark */}
+        <motion.span
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.8 }}
+          className="font-heading text-sm tracking-[0.18em] uppercase"
+          style={{ color: scrolled ? "#1a3347" : "rgba(255,255,255,0.9)" }}
+        >
+          Leviora Ventures
+        </motion.span>
+
         <Link
           href="/login"
-          className="text-sm font-medium text-[#1a3347]/80 hover:text-[#1a3347] transition-colors border border-[#1a3347]/20 hover:border-[#1a3347]/40 px-4 py-1.5 rounded-full"
+          className="text-xs font-medium tracking-wider uppercase transition-colors px-4 py-1.5 rounded-full border"
+          style={{
+            color: scrolled ? "#1a3347" : "rgba(255,255,255,0.85)",
+            borderColor: scrolled ? "rgba(26,51,71,0.25)" : "rgba(255,255,255,0.35)",
+          }}
         >
-          Sign in
+          Sign In
         </Link>
       </div>
     </motion.header>
@@ -97,161 +77,161 @@ function Nav() {
 export default function LandingPage() {
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   return (
     <div className="min-h-screen" style={{ background: "#f0f8fd", color: "#1a3347" }}>
       <Nav />
 
       {/* ── Hero ── */}
-      <section
-        ref={heroRef}
-        className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
-      >
-        {/* Daytime sky gradient */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(180deg, #87c4e8 0%, #aed8f0 25%, #cde9f7 55%, #e6f5fc 80%, #f2f9fd 100%)",
-          }}
-        />
-
-        {/* Cloud-like drifting orbs */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {/* Large cloud left */}
+      <section ref={heroRef} className="relative h-screen overflow-hidden">
+        {/* Sky background — parallax */}
+        <motion.div className="absolute inset-0" style={{ y: bgY, scale: 1.1 }}>
+          {/* Sky gradient */}
           <div
-            className="absolute"
+            className="absolute inset-0"
             style={{
-              width: "65vw",
-              height: "35vw",
-              top: "8vw",
-              left: "-10vw",
               background:
-                "radial-gradient(ellipse, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0.3) 50%, transparent 70%)",
-              filter: "blur(22px)",
+                "linear-gradient(170deg, #5ba8d4 0%, #7fc0e8 18%, #a8d8f0 38%, #cce9f7 58%, #e0f3fc 75%, #eef8fd 90%, #f5fbfe 100%)",
+            }}
+          />
+          {/* Cloud orbs */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div style={{
+              position: "absolute", width: "70vw", height: "45vw",
+              top: "-5vw", left: "-5vw",
+              background: "radial-gradient(ellipse, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.4) 40%, transparent 68%)",
+              filter: "blur(20px)",
               animation: "cloudDrift1 30s ease-in-out infinite alternate",
-            }}
-          />
-          {/* Large cloud right */}
-          <div
-            className="absolute"
-            style={{
-              width: "55vw",
-              height: "28vw",
-              top: "5vw",
-              right: "-8vw",
-              background:
-                "radial-gradient(ellipse, rgba(255,255,255,0.65) 0%, rgba(240,250,255,0.25) 55%, transparent 70%)",
-              filter: "blur(28px)",
+            }} />
+            <div style={{
+              position: "absolute", width: "60vw", height: "38vw",
+              top: "8vw", right: "-8vw",
+              background: "radial-gradient(ellipse, rgba(255,255,255,0.7) 0%, rgba(240,250,255,0.3) 45%, transparent 68%)",
+              filter: "blur(26px)",
               animation: "cloudDrift2 38s ease-in-out infinite alternate",
-            }}
-          />
-          {/* Smaller cloud centre-top */}
-          <div
-            className="absolute"
-            style={{
-              width: "40vw",
-              height: "20vw",
-              top: "2vw",
-              left: "30vw",
-              background:
-                "radial-gradient(ellipse, rgba(255,255,255,0.55) 0%, transparent 65%)",
-              filter: "blur(18px)",
-              animation: "cloudDrift3 25s ease-in-out infinite alternate",
-            }}
-          />
-          {/* Soft lower glow — horizon light */}
-          <div
-            className="absolute bottom-0 inset-x-0"
-            style={{
-              height: "40%",
-              background:
-                "linear-gradient(to top, rgba(255,255,255,0.4) 0%, transparent 100%)",
-            }}
-          />
-        </div>
+            }} />
+            <div style={{
+              position: "absolute", width: "45vw", height: "28vw",
+              top: "3vw", left: "28vw",
+              background: "radial-gradient(ellipse, rgba(255,255,255,0.6) 0%, transparent 65%)",
+              filter: "blur(16px)",
+              animation: "cloudDrift3 24s ease-in-out infinite alternate",
+            }} />
+            <div style={{
+              position: "absolute", width: "50vw", height: "30vw",
+              bottom: "10vw", right: "10vw",
+              background: "radial-gradient(ellipse, rgba(255,255,255,0.45) 0%, transparent 65%)",
+              filter: "blur(30px)",
+              animation: "cloudDrift1 42s ease-in-out infinite alternate-reverse",
+            }} />
+            {/* Warm horizon glow */}
+            <div style={{
+              position: "absolute", bottom: 0, left: 0, right: 0, height: "35%",
+              background: "linear-gradient(to top, rgba(255,248,235,0.3) 0%, transparent 100%)",
+            }} />
+          </div>
+          {/* Subtle dark overlay for text legibility */}
+          <div className="absolute inset-0" style={{ background: "rgba(10,30,50,0.18)" }} />
+        </motion.div>
 
-        {/* Parallax hero content */}
-        <motion.div
-          style={{ y: heroY, opacity: heroOpacity }}
-          className="relative z-10 text-center px-6 max-w-4xl mx-auto"
-        >
+        {/* Hero content */}
+        <motion.div style={{ opacity: contentOpacity }} className="relative z-10 h-full flex flex-col">
+          {/* Top-left logo */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.0, ease: "easeOut", delay: 0.15 }}
-            className="flex justify-center mb-10"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
+            className="absolute top-6 left-6 sm:top-8 sm:left-8"
           >
             <Image
               src="/logo-black.png"
               alt="Leviora Ventures"
-              width={180}
-              height={72}
-              className="h-14 w-auto"
-              style={{ mixBlendMode: "multiply" }}
+              width={140}
+              height={56}
+              className="h-10 sm:h-12 w-auto"
+              style={{ filter: "invert(1) brightness(2)", opacity: 0.92 }}
               priority
             />
           </motion.div>
 
-          <h1 className="font-heading text-[clamp(3.5rem,9.5vw,7.5rem)] leading-[0.94] font-medium text-[#0f2030] mb-10">
-            <AnimatedHeadline lines={["Clarity for", "every stage", "of growth."]} />
-          </h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 1.15 }}
-            className="text-base sm:text-lg text-[#1a3347]/55 max-w-md mx-auto leading-relaxed mb-12"
-          >
-            Strategic advisory and execution support for ambitious businesses —
-            delivered through your dedicated client portal.
-          </motion.p>
-
+          {/* Vertical "VENTURES" — right side */}
           <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.4 }}
-            className="flex flex-col sm:flex-row gap-3 justify-center"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
+            className="absolute right-6 sm:right-8 top-1/2 -translate-y-1/2"
+            style={{
+              writingMode: "vertical-rl",
+              textOrientation: "mixed",
+              transform: "translateY(-50%) rotate(180deg)",
+            }}
           >
-            <Link
-              href="/login"
-              className="inline-flex items-center justify-center text-sm font-medium px-7 py-3 rounded-full bg-[#1a3347] text-white hover:bg-[#243e55] transition-colors shadow-sm"
-            >
-              Sign in to your portal
-            </Link>
-            <a
-              href="#about"
-              className="inline-flex items-center justify-center text-sm font-medium px-7 py-3 rounded-full border border-[#1a3347]/20 text-[#1a3347]/70 hover:border-[#1a3347]/40 hover:text-[#1a3347] transition-colors bg-white/30 backdrop-blur-sm"
-            >
-              Learn more
-            </a>
+            <span className="font-heading text-sm sm:text-base tracking-[0.4em] uppercase text-white/55 select-none">
+              Ventures
+            </span>
           </motion.div>
-        </motion.div>
 
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2.2, duration: 1 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        >
-          <span className="text-[10px] uppercase tracking-[0.2em] text-[#1a3347]/30">Scroll</span>
+          {/* Bottom-left content */}
+          <div className="mt-auto px-6 sm:px-10 pb-12 sm:pb-14 max-w-2xl">
+            <motion.h1
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.55 }}
+              className="font-heading font-medium text-white leading-[1.05] mb-8"
+              style={{ fontSize: "clamp(2.4rem,6.5vw,5rem)" }}
+            >
+              Business dreams,<br />elevated.
+            </motion.h1>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: 0.8 }}
+              className="flex flex-wrap gap-3"
+            >
+              <Link
+                href="/login"
+                className="inline-flex items-center justify-center text-xs font-semibold tracking-wider uppercase px-6 py-3 rounded-sm bg-[#1a3347] text-white hover:bg-[#243e55] transition-colors"
+              >
+                Sign In to Portal
+              </Link>
+              <a
+                href="mailto:hello@levioraventures.com"
+                className="inline-flex items-center justify-center text-xs font-semibold tracking-wider uppercase px-6 py-3 rounded-sm border border-white/50 text-white hover:bg-white/10 transition-colors"
+              >
+                Get in Touch
+              </a>
+            </motion.div>
+          </div>
+
+          {/* Scroll to explore */}
           <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-            className="w-px h-10 bg-gradient-to-b from-[#1a3347]/30 to-transparent"
-          />
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.6, duration: 1 }}
+            className="absolute bottom-6 right-6 sm:right-10 flex items-center gap-3"
+          >
+            <span className="text-[10px] uppercase tracking-[0.22em] text-white/45">
+              Scroll to explore
+            </span>
+            <motion.div
+              animate={{ y: [0, 6, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </motion.div>
+          </motion.div>
         </motion.div>
       </section>
 
       {/* ── Editorial intro ── */}
       <section id="about" className="mx-auto max-w-2xl px-6 py-32">
         <FadeUp>
-          <p className="text-[11px] uppercase tracking-[0.25em] text-sky-600/70 mb-8">
-            Our approach
-          </p>
+          <p className="text-[10px] uppercase tracking-[0.28em] text-sky-600/60 mb-8">Our approach</p>
         </FadeUp>
         <div className="space-y-7 text-[#1a3347]/60 text-lg leading-[1.8]">
           <FadeUp delay={0.05}>
@@ -268,7 +248,7 @@ export default function LandingPage() {
             </p>
           </FadeUp>
           <FadeUp delay={0.15}>
-            <p className="text-[#1a3347]/35 italic font-heading text-3xl leading-snug">
+            <p className="text-[#1a3347]/30 italic font-heading text-3xl leading-snug">
               &ldquo;Strategy without execution is just a wish.&rdquo;
             </p>
           </FadeUp>
@@ -281,17 +261,12 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Divider */}
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="border-t border-[#1a3347]/[0.07]" />
-      </div>
+      <div className="mx-auto max-w-6xl px-6"><div className="border-t border-[#1a3347]/[0.07]" /></div>
 
       {/* ── Services ── */}
       <section className="mx-auto max-w-6xl px-6 py-32">
         <FadeUp>
-          <p className="text-[11px] uppercase tracking-[0.25em] text-sky-600/70 mb-16">
-            What we do
-          </p>
+          <p className="text-[10px] uppercase tracking-[0.28em] text-sky-600/60 mb-16">What we do</p>
         </FadeUp>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 sm:gap-10">
           {[
@@ -313,12 +288,8 @@ export default function LandingPage() {
           ].map((item, i) => (
             <FadeUp key={item.num} delay={i * 0.1}>
               <div className="border-t border-[#1a3347]/10 pt-8">
-                <span className="font-heading text-5xl font-medium text-[#1a3347]/10 block mb-6">
-                  {item.num}
-                </span>
-                <h3 className="font-heading text-2xl font-medium text-[#0f2030] mb-4">
-                  {item.title}
-                </h3>
+                <span className="font-heading text-5xl font-medium text-[#1a3347]/10 block mb-6">{item.num}</span>
+                <h3 className="font-heading text-2xl font-medium text-[#0f2030] mb-4">{item.title}</h3>
                 <p className="text-sm text-[#1a3347]/55 leading-[1.85]">{item.body}</p>
               </div>
             </FadeUp>
@@ -326,17 +297,12 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Divider */}
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="border-t border-[#1a3347]/[0.07]" />
-      </div>
+      <div className="mx-auto max-w-6xl px-6"><div className="border-t border-[#1a3347]/[0.07]" /></div>
 
       {/* ── Process ── */}
       <section className="mx-auto max-w-6xl px-6 py-32">
         <FadeUp>
-          <p className="text-[11px] uppercase tracking-[0.25em] text-sky-600/70 mb-4">
-            How it works
-          </p>
+          <p className="text-[10px] uppercase tracking-[0.28em] text-sky-600/60 mb-4">How it works</p>
         </FadeUp>
         <FadeUp delay={0.06}>
           <h2 className="font-heading text-4xl sm:text-5xl font-medium text-[#0f2030] mb-20 max-w-lg leading-[1.1]">
@@ -352,12 +318,8 @@ export default function LandingPage() {
           ].map((item, i) => (
             <FadeUp key={item.step} delay={i * 0.09}>
               <div>
-                <div className="font-heading text-6xl font-medium text-sky-400/40 mb-4">
-                  {item.step}
-                </div>
-                <h4 className="text-[11px] font-semibold uppercase tracking-wider text-[#1a3347]/60 mb-3">
-                  {item.label}
-                </h4>
+                <div className="font-heading text-6xl font-medium text-sky-400/35 mb-4">{item.step}</div>
+                <h4 className="text-[10px] font-semibold uppercase tracking-wider text-[#1a3347]/55 mb-3">{item.label}</h4>
                 <p className="text-sm text-[#1a3347]/45 leading-[1.85]">{item.desc}</p>
               </div>
             </FadeUp>
@@ -367,21 +329,8 @@ export default function LandingPage() {
 
       {/* ── CTA ── */}
       <section className="relative overflow-hidden py-40">
-        {/* Sky backdrop */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: "linear-gradient(180deg, #f2f9fd 0%, #d8eef8 50%, #c2e3f5 100%)",
-          }}
-        />
-        {/* Cloud puffs */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse 70% 50% at 50% 40%, rgba(255,255,255,0.6) 0%, transparent 70%)",
-          }}
-        />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, #f2f9fd 0%, #d8eef8 50%, #c2e3f5 100%)" }} />
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 70% 50% at 50% 40%, rgba(255,255,255,0.6) 0%, transparent 70%)" }} />
         <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
           <FadeUp>
             <h2 className="font-heading text-5xl sm:text-6xl font-medium text-[#0f2030] leading-[1.05] mb-6">
@@ -397,13 +346,13 @@ export default function LandingPage() {
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link
                 href="/login"
-                className="inline-flex items-center justify-center text-sm font-medium px-8 py-3.5 rounded-full bg-[#1a3347] text-white hover:bg-[#243e55] transition-colors shadow-sm"
+                className="inline-flex items-center justify-center text-xs font-semibold tracking-wider uppercase px-8 py-3.5 rounded-sm bg-[#1a3347] text-white hover:bg-[#243e55] transition-colors"
               >
                 Sign in to your portal
               </Link>
               <a
                 href="mailto:hello@levioraventures.com"
-                className="inline-flex items-center justify-center text-sm font-medium px-8 py-3.5 rounded-full border border-[#1a3347]/20 text-[#1a3347]/70 hover:border-[#1a3347]/40 hover:text-[#1a3347] transition-colors bg-white/50"
+                className="inline-flex items-center justify-center text-xs font-semibold tracking-wider uppercase px-8 py-3.5 rounded-sm border border-[#1a3347]/25 text-[#1a3347]/70 hover:border-[#1a3347]/50 hover:text-[#1a3347] transition-colors"
               >
                 Get in touch
               </a>
@@ -414,34 +363,33 @@ export default function LandingPage() {
 
       {/* ── Footer ── */}
       <footer className="border-t border-[#1a3347]/[0.08]" style={{ background: "#e8f5fc" }}>
-        <div className="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between">
+        <div className="mx-auto max-w-7xl px-6 h-14 flex items-center justify-between">
           <Image
             src="/logo-black.png"
             alt="Leviora Ventures"
             width={80}
             height={32}
-            className="h-6 w-auto opacity-40"
+            className="h-6 w-auto opacity-35"
             style={{ mixBlendMode: "multiply" }}
           />
-          <p className="text-xs text-[#1a3347]/30">
+          <p className="text-xs tracking-wider text-[#1a3347]/30 uppercase">
             © {new Date().getFullYear()} Leviora Ventures
           </p>
         </div>
       </footer>
 
-      {/* Cloud drift keyframes */}
       <style>{`
         @keyframes cloudDrift1 {
-          0%   { transform: translate(0, 0) scale(1); }
-          100% { transform: translate(4vw, -2vw) scale(1.06); }
+          0%   { transform: translate(0,0) scale(1); }
+          100% { transform: translate(3vw,-3vw) scale(1.07); }
         }
         @keyframes cloudDrift2 {
-          0%   { transform: translate(0, 0) scale(1.04); }
-          100% { transform: translate(-3vw, 2vw) scale(1); }
+          0%   { transform: translate(0,0) scale(1.04); }
+          100% { transform: translate(-4vw,2vw) scale(1); }
         }
         @keyframes cloudDrift3 {
-          0%   { transform: translate(0, 0) scale(1); }
-          100% { transform: translate(-2vw, -3vw) scale(1.05); }
+          0%   { transform: translate(0,0) scale(1); }
+          100% { transform: translate(-2vw,-4vw) scale(1.05); }
         }
       `}</style>
     </div>
