@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useRef, useEffect, useState } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 
@@ -72,17 +73,15 @@ function Nav() {
     >
       <div className="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between">
         {/* Logo */}
-        <div className="inline-flex items-center gap-2.5">
-          <span className="flex size-8 items-center justify-center rounded-full border border-sky-600/30 bg-white/50 text-sky-700">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 3c3 3.5 5 6.7 5 9.5a5 5 0 0 1-10 0C7 9.7 9 6.5 12 3Z" />
-              <path d="M12 3c-3 3.5-5 6.7-5 9.5" opacity="0.4" />
-            </svg>
-          </span>
-          <span className="font-heading text-2xl font-medium tracking-wide text-[#1a3347]">
-            Leviora
-          </span>
-        </div>
+        <Image
+          src="/logo-black.png"
+          alt="Leviora Ventures"
+          width={120}
+          height={48}
+          className="h-9 w-auto"
+          style={{ mixBlendMode: "multiply" }}
+          priority
+        />
         <Link
           href="/login"
           className="text-sm font-medium text-[#1a3347]/80 hover:text-[#1a3347] transition-colors border border-[#1a3347]/20 hover:border-[#1a3347]/40 px-4 py-1.5 rounded-full"
@@ -179,14 +178,22 @@ export default function LandingPage() {
           style={{ y: heroY, opacity: heroOpacity }}
           className="relative z-10 text-center px-6 max-w-4xl mx-auto"
         >
-          <motion.p
-            initial={{ opacity: 0, letterSpacing: "0.5em" }}
-            animate={{ opacity: 1, letterSpacing: "0.28em" }}
-            transition={{ duration: 1.4, ease: "easeOut", delay: 0.15 }}
-            className="text-[11px] font-medium uppercase tracking-[0.28em] text-sky-700/60 mb-10"
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.0, ease: "easeOut", delay: 0.15 }}
+            className="flex justify-center mb-10"
           >
-            Leviora Ventures
-          </motion.p>
+            <Image
+              src="/logo-black.png"
+              alt="Leviora Ventures"
+              width={180}
+              height={72}
+              className="h-14 w-auto"
+              style={{ mixBlendMode: "multiply" }}
+              priority
+            />
+          </motion.div>
 
           <h1 className="font-heading text-[clamp(3.5rem,9.5vw,7.5rem)] leading-[0.94] font-medium text-[#0f2030] mb-10">
             <AnimatedHeadline lines={["Clarity for", "every stage", "of growth."]} />
@@ -408,14 +415,14 @@ export default function LandingPage() {
       {/* ── Footer ── */}
       <footer className="border-t border-[#1a3347]/[0.08]" style={{ background: "#e8f5fc" }}>
         <div className="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between">
-          <div className="inline-flex items-center gap-2">
-            <span className="flex size-6 items-center justify-center rounded-full border border-sky-600/20 text-sky-700/60">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 3c3 3.5 5 6.7 5 9.5a5 5 0 0 1-10 0C7 9.7 9 6.5 12 3Z" />
-              </svg>
-            </span>
-            <span className="font-heading text-base text-[#1a3347]/50">Leviora</span>
-          </div>
+          <Image
+            src="/logo-black.png"
+            alt="Leviora Ventures"
+            width={80}
+            height={32}
+            className="h-6 w-auto opacity-40"
+            style={{ mixBlendMode: "multiply" }}
+          />
           <p className="text-xs text-[#1a3347]/30">
             © {new Date().getFullYear()} Leviora Ventures
           </p>
