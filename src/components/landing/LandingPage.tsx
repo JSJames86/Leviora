@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useRef, useEffect, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { useRef, useEffect, useState, useCallback } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -11,11 +11,9 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-/* ── Sky photo — free from Pexels (ID 1431822) ── */
-const HERO_IMG =
-  "https://images.pexels.com/photos/1431822/pexels-photo-1431822.jpeg?auto=compress&cs=tinysrgb&w=1920&q=80";
+const VIDEOS = ["/hero-sky.mp4", "/hero-hills.mp4"];
 
-/* ── Scroll-triggered fade-up (Framer Motion for section content) ── */
+/* ── Scroll-triggered fade-up ── */
 function FadeUp({
   children,
   delay = 0,
@@ -80,18 +78,75 @@ function Nav() {
   );
 }
 
+/* ── Hero video background with crossfade ── */
+function HeroVideo() {
+  const [active, setActive] = useState(0);
+  const [next, setNext] = useState<number | null>(null);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([null, null]);
+
+  const advance = useCallback(() => {
+    const nextIdx = (active + 1) % VIDEOS.length;
+    setNext(nextIdx);
+    const nextVid = videoRefs.current[nextIdx];
+    if (nextVid) {
+      nextVid.currentTime = 0;
+      nextVid.play().catch(() => {});
+    }
+    // after crossfade completes, make next the active
+    setTimeout(() => {
+      setActive(nextIdx);
+      setNext(null);
+    }, 1200);
+  }, [active]);
+
+  useEffect(() => {
+    const vid = videoRefs.current[0];
+    if (vid) vid.play().catch(() => {});
+  }, []);
+
+  return (
+    <div className="absolute inset-0 scale-110">
+      {VIDEOS.map((src, i) => {
+        const isActive = i === active;
+        const isNext = i === next;
+        if (!isActive && !isNext) return null;
+        return (
+          <motion.video
+            key={src}
+            ref={(el) => { videoRefs.current[i] = el; }}
+            src={src}
+            muted
+            playsInline
+            loop={false}
+            onEnded={isActive ? advance : undefined}
+            initial={{ opacity: isActive ? 1 : 0 }}
+            animate={{ opacity: isNext ? 1 : isActive ? 1 : 0 }}
+            transition={{ duration: 1.2, ease: "easeInOut" }}
+            className="absolute inset-0 w-full h-full object-cover object-center"
+          />
+        );
+      })}
+      {/* Gradient overlay for text legibility */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(to top, rgba(5,18,30,0.60) 0%, rgba(5,18,30,0.25) 50%, rgba(5,18,30,0.12) 100%)",
+        }}
+      />
+    </div>
+  );
+}
+
 /* ── Main ── */
 export default function LandingPage() {
   const heroRef = useRef<HTMLDivElement>(null);
-  const bgRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const scrollLabelRef = useRef<HTMLDivElement>(null);
 
-  /* GSAP hero animations */
   useEffect(() => {
     const ctx = gsap.context(() => {
-      /* entrance */
       gsap.fromTo(
         headlineRef.current,
         { y: 60, opacity: 0 },
@@ -108,19 +163,6 @@ export default function LandingPage() {
         { opacity: 1, duration: 1, delay: 1.8 }
       );
 
-      /* parallax on scroll */
-      gsap.to(bgRef.current, {
-        yPercent: 28,
-        ease: "none",
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
-
-      /* fade hero content out on scroll */
       gsap.to([headlineRef.current, ctaRef.current, scrollLabelRef.current], {
         opacity: 0,
         y: -30,
@@ -142,25 +184,7 @@ export default function LandingPage() {
 
       {/* ── Hero ── */}
       <section ref={heroRef} className="relative h-screen overflow-hidden">
-        {/* Photo background */}
-        <div ref={bgRef} className="absolute inset-0 scale-110">
-          <Image
-            src={HERO_IMG}
-            alt="Sky and clouds"
-            fill
-            priority
-            className="object-cover object-center"
-            sizes="100vw"
-          />
-          {/* Gradient overlay — darken slightly for text legibility */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(to top, rgba(5,18,30,0.55) 0%, rgba(5,18,30,0.2) 50%, rgba(5,18,30,0.1) 100%)",
-            }}
-          />
-        </div>
+        <HeroVideo />
 
         {/* Top-left logo */}
         <motion.div
