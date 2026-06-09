@@ -1,4 +1,5 @@
 {
+  "framework": "nextjs",
   "env": {
     "NEXT_PUBLIC_SUPABASE_URL": "https://lcmdgigljhxqupziqljn.supabase.co",
     "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxjbWRnaWdsamh4cXVwemlxbGpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5MzQyNjUsImV4cCI6MjA5NjUxMDI2NX0.1Vj8DjoY3U-dkkBYcNxOEf264ZRpw-uCAfaZSDj0aCY",
