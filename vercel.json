@@ -3,13 +3,15 @@
     "NEXT_PUBLIC_SUPABASE_URL": "https://lcmdgigljhxqupziqljn.supabase.co",
     "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxjbWRnaWdsamh4cXVwemlxbGpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5MzQyNjUsImV4cCI6MjA5NjUxMDI2NX0.1Vj8DjoY3U-dkkBYcNxOEf264ZRpw-uCAfaZSDj0aCY",
     "RESEND_FROM_EMAIL": "Leviora Ventures <hello@levioraventures.com>",
-    "NEXT_PUBLIC_SITE_URL": "https://levioraventures.com"
+    "NEXT_PUBLIC_SITE_URL": "https://levioraventures.com",
+    "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY": "pk_test_51TgEeH6XObkkN7hiEBbSvZBSKwYzulqEsdCaqhWa2S2bPxG3KmWmfkBDiAUHzmYcJ06Mun4mWl3OGr1cp848VhGL00r6a7kafz"
   },
   "build": {
     "env": {
       "NEXT_PUBLIC_SUPABASE_URL": "https://lcmdgigljhxqupziqljn.supabase.co",
       "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxjbWRnaWdsamh4cXVwemlxbGpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5MzQyNjUsImV4cCI6MjA5NjUxMDI2NX0.1Vj8DjoY3U-dkkBYcNxOEf264ZRpw-uCAfaZSDj0aCY",
-      "NEXT_PUBLIC_SITE_URL": "https://levioraventures.com"
+      "NEXT_PUBLIC_SITE_URL": "https://levioraventures.com",
+      "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY": "pk_test_51TgEeH6XObkkN7hiEBbSvZBSKwYzulqEsdCaqhWa2S2bPxG3KmWmfkBDiAUHzmYcJ06Mun4mWl3OGr1cp848VhGL00r6a7kafz"
     }
   }
 }
