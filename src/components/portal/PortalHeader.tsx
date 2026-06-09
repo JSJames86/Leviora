@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
-import { LogOutIcon } from "@/components/ui/icons";
+import { CalendarIcon, LogOutIcon } from "@/components/ui/icons";
 import { initials } from "@/lib/utils";
 import { logout } from "@/app/(auth)/actions";
 import type { Notification } from "@/types";
@@ -14,6 +14,13 @@ export function PortalHeader({ name, notifications }: { name: string; notificati
           <Logo />
         </Link>
         <div className="flex items-center gap-4">
+          <Link
+            href="/portal/calendar"
+            className="flex items-center gap-1.5 text-sm text-text-secondary hover:text-text-primary transition-colors"
+          >
+            <CalendarIcon className="size-4" />
+            <span className="hidden sm:inline">Calendar</span>
+          </Link>
           <NotificationBell notifications={notifications} engagementBasePath="/portal/engagements" />
           <div className="flex items-center gap-2.5 rounded-full border border-border bg-surface py-1 pl-1 pr-3">
             <span className="flex size-8 items-center justify-center rounded-full bg-secondary/60 text-sm font-medium text-[#3f6f87]">

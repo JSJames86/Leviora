@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import Script from "next/script";
 import { useRef, useEffect, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
@@ -12,6 +13,17 @@ if (typeof window !== "undefined") {
 }
 
 const VIDEOS = ["/hero-sky.mp4", "/hero-hills.mp4"];
+const CALENDLY_URL = "https://calendly.com/levioraventures";
+
+declare global {
+  interface Window {
+    Calendly?: { initPopupWidget: (opts: { url: string }) => void };
+  }
+}
+
+function openCalendly() {
+  window.Calendly?.initPopupWidget({ url: CALENDLY_URL });
+}
 
 /* ── Scroll-triggered fade-up ── */
 function FadeUp({
@@ -152,6 +164,7 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "#f0f8fd", color: "#1a3347" }}>
+      <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="lazyOnload" />
       <Nav />
 
       {/* ── Hero ── */}
@@ -208,12 +221,12 @@ export default function LandingPage() {
             >
               Sign In to Portal
             </Link>
-            <a
-              href="mailto:hello@levioraventures.com"
+            <button
+              onClick={openCalendly}
               className="inline-flex items-center justify-center text-xs font-semibold tracking-wider uppercase px-6 py-3 border border-white/30 text-white/80 hover:bg-white/10 transition-colors rounded-sm"
             >
               Schedule a Discovery Call
-            </a>
+            </button>
           </div>
         </div>
 
@@ -387,8 +400,8 @@ export default function LandingPage() {
                     </li>
                   ))}
                 </ul>
-                <a
-                  href="mailto:hello@levioraventures.com"
+                <button
+                  onClick={openCalendly}
                   className="inline-flex items-center justify-center text-xs font-semibold tracking-wider uppercase px-5 py-2.5 rounded-sm transition-colors"
                   style={{
                     background: pkg.featured ? "rgba(255,255,255,0.12)" : "transparent",
@@ -397,7 +410,7 @@ export default function LandingPage() {
                   }}
                 >
                   Start a Conversation
-                </a>
+                </button>
               </div>
             </FadeUp>
           ))}
@@ -454,9 +467,9 @@ export default function LandingPage() {
               <Link href="/login" className="inline-flex items-center justify-center text-xs font-semibold tracking-wider uppercase px-8 py-3.5 rounded-sm bg-[#1a3347] text-white hover:bg-[#243e55] transition-colors">
                 Sign in to your portal
               </Link>
-              <a href="mailto:hello@levioraventures.com" className="inline-flex items-center justify-center text-xs font-semibold tracking-wider uppercase px-8 py-3.5 rounded-sm border border-[#1a3347]/25 text-[#1a3347]/70 hover:border-[#1a3347]/50 hover:text-[#1a3347] transition-colors">
+              <button onClick={openCalendly} className="inline-flex items-center justify-center text-xs font-semibold tracking-wider uppercase px-8 py-3.5 rounded-sm border border-[#1a3347]/25 text-[#1a3347]/70 hover:border-[#1a3347]/50 hover:text-[#1a3347] transition-colors">
                 Schedule a Discovery Call
-              </a>
+              </button>
             </div>
           </FadeUp>
         </div>
