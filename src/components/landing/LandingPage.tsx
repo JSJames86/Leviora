@@ -4,9 +4,11 @@ import Link from "next/link";
 import Image from "next/image";
 import Script from "next/script";
 import { useRef, useEffect, useState } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Nav } from "./Nav";
+import { FadeUp } from "./FadeUp";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -23,84 +25,6 @@ declare global {
 
 function openCalendly() {
   window.Calendly?.initPopupWidget({ url: CALENDLY_URL });
-}
-
-/* ── Scroll-triggered fade-up ── */
-function FadeUp({
-  children,
-  delay = 0,
-  className,
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 36 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-/* ── Nav ── */
-function Nav() {
-  const [scrolled, setScrolled] = useState(false);
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 80);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-  return (
-    <motion.header
-      animate={{ backgroundColor: scrolled ? "rgba(240,249,255,0.93)" : "rgba(0,0,0,0)" }}
-      transition={{ duration: 0.4 }}
-      className="fixed top-0 inset-x-0 z-50 backdrop-blur-sm"
-      style={{ borderBottom: scrolled ? "1px solid rgba(100,170,220,0.18)" : "1px solid transparent" }}
-    >
-      <div className="mx-auto max-w-7xl px-6 h-14 flex items-center justify-between">
-        <motion.span
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.8 }}
-          className="font-heading text-sm tracking-[0.18em] uppercase"
-          style={{ color: scrolled ? "#1a3347" : "rgba(255,255,255,0.9)" }}
-        >
-          Leviora Ventures
-        </motion.span>
-        <div className="flex items-center gap-3">
-          <Link
-            href="/quote"
-            className="text-xs font-medium tracking-wider uppercase transition-colors px-4 py-1.5 rounded-full border"
-            style={{
-              color: scrolled ? "#f0f8fd" : "#1a3347",
-              borderColor: scrolled ? "#1a3347" : "rgba(255,255,255,0.9)",
-              backgroundColor: scrolled ? "#1a3347" : "rgba(255,255,255,0.9)",
-            }}
-          >
-            Get a Quote
-          </Link>
-          <Link
-            href="/login"
-            className="text-xs font-medium tracking-wider uppercase transition-colors px-4 py-1.5 rounded-full border"
-            style={{
-              color: scrolled ? "#1a3347" : "rgba(255,255,255,0.85)",
-              borderColor: scrolled ? "rgba(26,51,71,0.25)" : "rgba(255,255,255,0.35)",
-            }}
-          >
-            Sign In
-          </Link>
-        </div>
-      </div>
-    </motion.header>
-  );
 }
 
 /* ── Hero video — key-based remount so autoPlay fires on every switch (iOS-safe) ── */
