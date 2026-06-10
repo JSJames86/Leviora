@@ -133,12 +133,12 @@ const ALL_ITEMS: Record<string, QuoteItem> = {};
 
 const fmt = (n: number) => "$" + n.toLocaleString();
 
-const FocusRing = "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0e6b66]";
+const FocusRing = "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
 
 function Toggle({ on }: { on: boolean }) {
   return (
-    <span aria-hidden className={`mt-1 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border transition-colors ${on ? "border-[#0e6b66] bg-[#0e6b66]" : "border-[#b9b2a4] bg-transparent"}`}>
-      {on && <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 6.5L5 9L9.5 3.5" stroke="#f7f4ec" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+    <span aria-hidden className={`mt-1 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border transition-colors ${on ? "border-primary bg-primary" : "border-border bg-transparent"}`}>
+      {on && <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 6.5L5 9L9.5 3.5" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
     </span>
   );
 }
@@ -151,24 +151,24 @@ function Row({ item, on, onClick, priceLabel, inPkg }: {
   inPkg?: boolean;
 }) {
   if (inPkg) return (
-    <div className="flex w-full items-start gap-3 border-b border-[#e6e0d2] px-1 py-3.5 text-left opacity-70">
+    <div className="flex w-full items-start gap-3 border-b border-border px-1 py-3.5 text-left opacity-70">
       <Toggle on={true} />
       <span className="flex-1 min-w-0">
-        <span className="block font-medium leading-snug text-[#0e3c39]">{item.name}</span>
-        <span className="block text-[13px] leading-snug text-[#7d7669]">{item.desc}</span>
+        <span className="block font-medium leading-snug text-text-primary">{item.name}</span>
+        <span className="block text-[13px] leading-snug text-text-secondary">{item.desc}</span>
       </span>
-      <span className="shrink-0 rounded bg-[#0e6b66]/10 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-[#0e6b66]">Included</span>
+      <span className="shrink-0 rounded bg-success/15 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-success">Included</span>
     </div>
   );
   return (
     <button onClick={onClick}
-      className={`group flex w-full items-start gap-3 border-b border-[#e6e0d2] px-1 py-3.5 text-left transition-colors hover:bg-[#0e6b66]/[0.04] ${FocusRing}`}>
+      className={`group flex w-full items-start gap-3 border-b border-border px-1 py-3.5 text-left transition-colors hover:bg-primary/5 ${FocusRing}`}>
       <Toggle on={on} />
       <span className="flex-1 min-w-0">
-        <span className={`block font-medium leading-snug ${on ? "text-[#0e3c39]" : "text-[#2b2a26]"}`}>{item.name}</span>
-        <span className="block text-[13px] leading-snug text-[#7d7669]">{item.desc}</span>
+        <span className="block font-medium leading-snug text-text-primary">{item.name}</span>
+        <span className="block text-[13px] leading-snug text-text-secondary">{item.desc}</span>
       </span>
-      <span className="shrink-0 pt-px font-medium tabular-nums text-[#0e6b66]">{priceLabel}</span>
+      <span className="shrink-0 pt-px font-medium tabular-nums text-primary">{priceLabel}</span>
     </button>
   );
 }
@@ -264,20 +264,16 @@ export default function QuoteBuilder() {
   const empty = quote.lines.length === 0;
 
   return (
-    <div className="min-h-screen bg-[#f7f4ec] text-[#2b2a26]" style={{ fontFamily: "'Source Sans 3', ui-sans-serif, system-ui, sans-serif" }}>
+    <div className="min-h-screen bg-background">
       <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="lazyOnload" />
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600&display=swap');
-        @media (prefers-reduced-motion: reduce){ *{transition:none!important} }
-      `}</style>
 
       {/* Header */}
-      <header className="border-b border-[#0e6b66]/20 bg-[#0e3c39] px-5 py-7 text-[#f7f4ec] sm:px-10">
-        <p className="text-[11px] uppercase tracking-[0.28em] text-[#9fc8c2]">Leviora Ventures</p>
-        <h1 className="mt-1.5 text-3xl sm:text-4xl" style={{ fontFamily: "'Fraunces', serif", fontWeight: 600 }}>
+      <header className="border-b border-primary/20 bg-text-primary px-5 py-7 text-background sm:px-10">
+        <p className="text-[11px] uppercase tracking-[0.28em] text-secondary">Leviora Ventures</p>
+        <h1 className="mt-1.5 font-heading text-3xl font-semibold sm:text-4xl">
           Build your quote.
         </h1>
-        <p className="mt-1.5 max-w-xl text-[15px] text-[#cfe2de]">
+        <p className="mt-1.5 max-w-xl text-[15px] text-accent">
           Select what you need. Every line is itemized — our fee, the state&apos;s fee, and anything recurring. No surprises at checkout.
         </p>
       </header>
@@ -287,21 +283,21 @@ export default function QuoteBuilder() {
         <div className="space-y-10">
           {/* Packages */}
           <section>
-            <h2 className="text-xl text-[#0e3c39]" style={{ fontFamily: "'Fraunces', serif", fontWeight: 600 }}>Packages</h2>
-            <p className="mb-3 text-sm text-[#7d7669]">One tap, fully bundled. Tap again to go à la carte.</p>
+            <h2 className="font-heading text-xl font-semibold text-text-primary">Packages</h2>
+            <p className="mb-3 text-sm text-text-secondary">One tap, fully bundled. Tap again to go à la carte.</p>
             <div className="grid gap-3 sm:grid-cols-3">
               {PACKAGES.map((p) => {
                 const on = pkg === p.id;
                 const alaCarte = p.includes.reduce((s, id) => s + (ALL_ITEMS[id]?.leviora || 0), 0);
                 return (
                   <button key={p.id} onClick={() => setPkg(on ? null : p.id)}
-                    className={`rounded-lg border p-4 text-left transition-colors ${FocusRing} ${on ? "border-[#0e6b66] bg-[#0e6b66] text-[#f7f4ec]" : "border-[#e6e0d2] bg-white hover:border-[#0e6b66]/50"}`}>
-                    <p className={`text-[10px] uppercase tracking-[0.2em] ${on ? "text-[#9fc8c2]" : "text-[#a05c2a]"}`}>{p.tag}</p>
-                    <p className="mt-1 text-lg" style={{ fontFamily: "'Fraunces', serif", fontWeight: 700 }}>{p.name}</p>
-                    <p className={`text-xl tabular-nums ${on ? "" : "text-[#0e6b66]"}`} style={{ fontFamily: "'Fraunces', serif", fontWeight: 600 }}>{fmt(p.price)}</p>
-                    <p className={`mt-1.5 text-[12.5px] leading-snug ${on ? "text-[#cfe2de]" : "text-[#7d7669]"}`}>{p.desc}</p>
+                    className={`rounded-lg border p-4 text-left transition-colors ${FocusRing} ${on ? "border-primary bg-primary text-white" : "border-border bg-surface hover:border-primary/50"}`}>
+                    <p className={`text-[10px] uppercase tracking-[0.2em] ${on ? "text-white/70" : "text-primary"}`}>{p.tag}</p>
+                    <p className="mt-1 font-heading text-lg font-bold">{p.name}</p>
+                    <p className={`font-heading text-xl font-semibold tabular-nums ${on ? "" : "text-primary"}`}>{fmt(p.price)}</p>
+                    <p className={`mt-1.5 text-[12.5px] leading-snug ${on ? "text-white/80" : "text-text-secondary"}`}>{p.desc}</p>
                     {alaCarte > p.price && (
-                      <p className={`mt-2 text-[12px] font-semibold ${on ? "text-[#9fc8c2]" : "text-[#0e6b66]"}`}>
+                      <p className={`mt-2 text-[12px] font-semibold ${on ? "text-white/90" : "text-success"}`}>
                         Save {fmt(alaCarte - p.price)} vs à la carte
                       </p>
                     )}
@@ -313,23 +309,23 @@ export default function QuoteBuilder() {
 
           {/* Formation */}
           <section>
-            <h2 className="text-xl text-[#0e3c39]" style={{ fontFamily: "'Fraunces', serif", fontWeight: 600 }}>Formation</h2>
-            <p className="mb-2 text-sm text-[#7d7669]">Pick one — state fees added automatically.</p>
+            <h2 className="font-heading text-xl font-semibold text-text-primary">Formation</h2>
+            <p className="mb-2 text-sm text-text-secondary">Pick one — state fees added automatically.</p>
 
-            <label className="mb-1 mt-3 block text-xs font-semibold uppercase tracking-wider text-[#7d7669]" htmlFor="state">
+            <label className="mb-1 mt-3 block text-xs font-semibold uppercase tracking-wider text-text-secondary" htmlFor="state">
               Filing state
             </label>
             <select id="state" value={state} onChange={(e) => setState(e.target.value)}
-              className={`mb-1 w-full max-w-[220px] rounded-md border border-[#b9b2a4] bg-white px-3 py-2 text-[15px] ${FocusRing}`}>
+              className={`mb-1 w-full max-w-[220px] rounded-md border border-border bg-surface px-3 py-2 text-[15px] ${FocusRing}`}>
               {Object.keys(STATE_FEES).sort().map((s) => (
                 <option key={s} value={s}>{s} — {fmt(STATE_FEES[s])} state fee</option>
               ))}
             </select>
             {STATE_NOTES[state] && (
-              <p className="mb-1 text-[13px] text-[#a05c2a]">⚠ {STATE_NOTES[state]}</p>
+              <p className="mb-1 text-[13px] text-primary">⚠ {STATE_NOTES[state]}</p>
             )}
 
-            <div className="mt-2 rounded-lg border border-[#e6e0d2] bg-white px-3">
+            <div className="mt-2 rounded-lg border border-border bg-surface px-3">
               {FORMATION.map((f) => (
                 <Row key={f.id} item={f} on={formation === f.id} inPkg={included.has(f.id)}
                   onClick={() => setFormation(formation === f.id ? null : f.id)}
@@ -340,9 +336,9 @@ export default function QuoteBuilder() {
 
           {/* Add-ons */}
           <section>
-            <h2 className="text-xl text-[#0e3c39]" style={{ fontFamily: "'Fraunces', serif", fontWeight: 600 }}>Formation add-ons</h2>
-            <p className="mb-2 text-sm text-[#7d7669]">Stack onto any formation package.</p>
-            <div className="rounded-lg border border-[#e6e0d2] bg-white px-3">
+            <h2 className="font-heading text-xl font-semibold text-text-primary">Formation add-ons</h2>
+            <p className="mb-2 text-sm text-text-secondary">Stack onto any formation package.</p>
+            <div className="rounded-lg border border-border bg-surface px-3">
               {ADDONS.map((a) => (
                 <Row key={a.id} item={a} on={!!addons[a.id]} inPkg={included.has(a.id)}
                   onClick={() => toggle(setAddons)(a.id)}
@@ -353,9 +349,9 @@ export default function QuoteBuilder() {
 
           {/* Digital */}
           <section>
-            <h2 className="text-xl text-[#0e3c39]" style={{ fontFamily: "'Fraunces', serif", fontWeight: 600 }}>Digital</h2>
-            <p className="mb-2 text-sm text-[#7d7669]">Websites are either/or — pick the tier that fits.</p>
-            <div className="rounded-lg border border-[#e6e0d2] bg-white px-3">
+            <h2 className="font-heading text-xl font-semibold text-text-primary">Digital</h2>
+            <p className="mb-2 text-sm text-text-secondary">Websites are either/or — pick the tier that fits.</p>
+            <div className="rounded-lg border border-border bg-surface px-3">
               {DIGITAL.map((d) => (
                 <Row key={d.id} item={d} on={!!digital[d.id]} inPkg={included.has(d.id)}
                   onClick={() => toggle(setDigital)(d.id, d.group)}
@@ -366,9 +362,9 @@ export default function QuoteBuilder() {
 
           {/* Capital readiness */}
           <section>
-            <h2 className="text-xl text-[#0e3c39]" style={{ fontFamily: "'Fraunces', serif", fontWeight: 600 }}>Capital readiness</h2>
-            <p className="mb-2 text-sm text-[#7d7669]">Get fundable — grants, contracts, and credit.</p>
-            <div className="rounded-lg border border-[#e6e0d2] bg-white px-3">
+            <h2 className="font-heading text-xl font-semibold text-text-primary">Capital readiness</h2>
+            <p className="mb-2 text-sm text-text-secondary">Get fundable — grants, contracts, and credit.</p>
+            <div className="rounded-lg border border-border bg-surface px-3">
               {CAPITAL.map((c) => (
                 <Row key={c.id} item={c} on={!!capital[c.id]} inPkg={included.has(c.id)}
                   onClick={() => toggle(setCapital)(c.id)}
@@ -379,8 +375,8 @@ export default function QuoteBuilder() {
 
           {/* Advisory */}
           <section>
-            <h2 className="text-xl text-[#0e3c39]" style={{ fontFamily: "'Fraunces', serif", fontWeight: 600 }}>Advisory & systems</h2>
-            <div className="mt-2 rounded-lg border border-[#e6e0d2] bg-white px-3">
+            <h2 className="font-heading text-xl font-semibold text-text-primary">Advisory & systems</h2>
+            <div className="mt-2 rounded-lg border border-border bg-surface px-3">
               {ADVISORY.map((a) => (
                 <Row key={a.id} item={a} on={!!advisory[a.id]} inPkg={included.has(a.id)}
                   onClick={() => toggle(setAdvisory)(a.id)}
@@ -392,23 +388,23 @@ export default function QuoteBuilder() {
 
         {/* ───────── The Ledger ───────── */}
         <aside className="lg:sticky lg:top-6 h-fit">
-          <div className="rounded-xl border border-[#0e6b66]/25 bg-white shadow-[0_1px_0_#0e6b66_inset,0_8px_24px_-12px_rgba(14,60,57,0.25)]">
-            <div className="border-b border-dashed border-[#cfc8b8] px-5 pb-3 pt-4">
-              <p className="text-[11px] uppercase tracking-[0.25em] text-[#7d7669]">Your quote</p>
+          <div className="rounded-xl border border-border border-t-2 border-t-primary bg-surface shadow-soft-lg">
+            <div className="border-b border-dashed border-border px-5 pb-3 pt-4">
+              <p className="text-[11px] uppercase tracking-[0.25em] text-text-secondary">Your quote</p>
             </div>
 
             <div className="px-5 py-3" aria-live="polite">
               {empty ? (
-                <p className="py-6 text-center text-sm text-[#9a9385]">
+                <p className="py-6 text-center text-sm text-text-secondary">
                   Select a service to start your quote.
                 </p>
               ) : (
                 <ul className="space-y-2">
                   {quote.lines.map((l, i) => (
                     <li key={i} className="flex items-baseline justify-between gap-3 text-[14px]">
-                      <span className={l.kind === "pass" ? "text-[#7d7669]" : "text-[#2b2a26]"}>
+                      <span className={l.kind === "pass" ? "text-text-secondary" : "text-text-primary"}>
                         {l.label}
-                        {l.kind === "pass" && <span className="ml-1.5 rounded bg-[#efe9da] px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-[#8a8273]">pass-through</span>}
+                        {l.kind === "pass" && <span className="ml-1.5 rounded bg-border px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-text-secondary">pass-through</span>}
                       </span>
                       <span className="tabular-nums font-medium">{fmt(l.amt)}{l.per || ""}</span>
                     </li>
@@ -418,39 +414,39 @@ export default function QuoteBuilder() {
             </div>
 
             {!empty && (
-              <div className="border-t border-dashed border-[#cfc8b8] px-5 py-4">
-                <div className="flex justify-between text-[13px] text-[#7d7669]">
+              <div className="border-t border-dashed border-border px-5 py-4">
+                <div className="flex justify-between text-[13px] text-text-secondary">
                   <span>Leviora services</span><span className="tabular-nums">{fmt(quote.oneTime)}</span>
                 </div>
-                <div className="flex justify-between text-[13px] text-[#7d7669]">
+                <div className="flex justify-between text-[13px] text-text-secondary">
                   <span>Government fees (pass-through)</span><span className="tabular-nums">{fmt(quote.passThrough)}</span>
                 </div>
                 {quote.savings > 0 && (
-                  <div className="flex justify-between text-[13px] font-semibold text-[#0e6b66]">
+                  <div className="flex justify-between text-[13px] font-semibold text-success">
                     <span>Bundle savings</span><span className="tabular-nums">−{fmt(quote.savings)}</span>
                   </div>
                 )}
                 <div className="mt-3 flex items-baseline justify-between">
-                  <span className="text-[15px] font-semibold text-[#0e3c39]">Due today</span>
-                  <span className="text-2xl tabular-nums text-[#0e3c39]" style={{ fontFamily: "'Fraunces', serif", fontWeight: 700 }}>
+                  <span className="text-[15px] font-semibold text-text-primary">Due today</span>
+                  <span className="font-heading text-2xl font-bold tabular-nums text-text-primary">
                     {fmt(quote.dueToday)}
                   </span>
                 </div>
                 {quote.recurring.length > 0 && (
-                  <p className="mt-2 text-[12.5px] text-[#7d7669]">
+                  <p className="mt-2 text-[12.5px] text-text-secondary">
                     Then {quote.recurring.map((r) => `${fmt(r.amt)}${r.per ?? ""} ${r.label.toLowerCase()}`).join(" · ")}
                   </p>
                 )}
-                <button onClick={openCalendly} className={`mt-4 w-full rounded-md bg-[#0e6b66] px-4 py-3 text-[15px] font-semibold text-[#f7f4ec] transition-colors hover:bg-[#0e3c39] ${FocusRing}`}>
+                <button onClick={openCalendly} className={`mt-4 w-full rounded-md bg-primary px-4 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-text-primary ${FocusRing}`}>
                   Book your discovery call
                 </button>
-                <p className="mt-2 text-center text-[11.5px] text-[#9a9385]">
+                <p className="mt-2 text-center text-[11.5px] text-text-secondary">
                   Quote is an estimate — confirmed on your call.
                 </p>
               </div>
             )}
           </div>
-          <p className="mt-3 px-1 text-[11.5px] leading-relaxed text-[#9a9385]">
+          <p className="mt-3 px-1 text-[11.5px] leading-relaxed text-text-secondary">
             State fees shown are standard filing fees and may change; expedited processing available in most states.
           </p>
         </aside>
