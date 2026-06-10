@@ -12,7 +12,12 @@ export type EmailTrigger =
   | "questionnaire_submitted"
   | "document_generated"
   | "client_note_added"
-  | "engagement_idle";
+  | "engagement_idle"
+  | "payment_request"
+  | "payment_received_starting"
+  | "payment_receipt_midpoint"
+  | "payment_receipt_final"
+  | "subscription_confirmation";
 
 export interface EmailContent {
   subject: string;
@@ -141,5 +146,57 @@ export const EMAIL_TEMPLATES: Record<EmailTrigger, (vars: Record<string, string>
     paragraphs: [`${v.engagementTitle ?? "This engagement"} hasn't moved in 7 days. A quick check-in note could keep momentum going.`],
     ctaLabel: "Open engagement",
     ctaPath: `/admin/engagements/${v.engagementId ?? ""}`,
+  }),
+  payment_request: (v) => ({
+    subject: `Your ${v.milestoneLabel ?? "payment"} is ready — ${v.amount ?? ""}`,
+    heading: `Your ${v.milestoneLabel ?? "payment"} is ready`,
+    greeting: `Hi ${v.name ?? "there"},`,
+    paragraphs: [
+      `It's time for your ${v.milestoneLabel ?? "next payment"} of ${v.amount ?? ""}. Nothing moves without it — and nothing surprises you after it.`,
+      "Use the secure link below to pay. Reach out any time if you have questions.",
+    ],
+    ctaLabel: "Pay now",
+    ctaPath: v.paymentUrl ?? "/",
+  }),
+  payment_received_starting: (v) => ({
+    subject: "Payment received — we're starting",
+    heading: "Payment received — we're starting",
+    greeting: `Hi ${v.name ?? "there"},`,
+    paragraphs: [
+      `We've received your payment of ${v.amount ?? "your deposit"}. We're getting to work right away.`,
+      "We'll be in touch with updates as we go — no need to check in.",
+    ],
+    ctaLabel: "Visit Leviora Ventures",
+    ctaPath: "/",
+  }),
+  payment_receipt_midpoint: (v) => ({
+    subject: "Payment received — halfway there",
+    heading: "Payment received — halfway there",
+    greeting: `Hi ${v.name ?? "there"},`,
+    paragraphs: [
+      `Thanks — we've received your midpoint payment of ${v.amount ?? ""}. The first half of your project is wrapped, and we're moving on to the rest.`,
+    ],
+    ctaLabel: "Visit Leviora Ventures",
+    ctaPath: "/",
+  }),
+  payment_receipt_final: (v) => ({
+    subject: "Final payment received — wrapping up",
+    heading: "Final payment received — wrapping up",
+    greeting: `Hi ${v.name ?? "there"},`,
+    paragraphs: [
+      `We've received your final payment of ${v.amount ?? ""}. Your deliverables are on their way — thank you for trusting Leviora with this work.`,
+    ],
+    ctaLabel: "Visit Leviora Ventures",
+    ctaPath: "/",
+  }),
+  subscription_confirmation: (v) => ({
+    subject: "Your subscription is active",
+    heading: "Your subscription is active",
+    greeting: `Hi ${v.name ?? "there"},`,
+    paragraphs: [
+      `${v.planLabel ?? "Your recurring service"} is now active at ${v.amount ?? ""}. We'll handle it from here — you'll get a receipt from Stripe each billing cycle.`,
+    ],
+    ctaLabel: "Visit Leviora Ventures",
+    ctaPath: "/",
   }),
 };

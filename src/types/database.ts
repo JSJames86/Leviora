@@ -1,3 +1,5 @@
+import type { ComputedQuote, MilestonePlan, QuoteSelection } from "@/lib/quote/compute";
+
 export type UserRole = "admin" | "client";
 
 export type PackageType = "alacarte" | "starter" | "growth" | "elevated";
@@ -112,6 +114,47 @@ export type GeneratedDocument = {
   reviewed_at: string | null;
 };
 
+export type LeadStatus = "new" | "call_booked" | "deposit_paid" | "midpoint_paid" | "completed" | "lost";
+
+export type BusinessStage = "idea" | "formed" | "operating";
+
+export type PaymentMilestone = "full" | "deposit" | "midpoint" | "final" | "subscription";
+
+/** Snapshot of the quote builder state at the time a lead was submitted. */
+export type LeadQuoteJson = {
+  selection: QuoteSelection;
+  computed: ComputedQuote;
+  milestones: MilestonePlan | null;
+};
+
+export type Lead = {
+  id: string;
+  created_at: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  business_name: string | null;
+  business_stage: BusinessStage | null;
+  state: string | null;
+  quote_json: LeadQuoteJson;
+  quote_total: number;
+  pass_through_total: number;
+  status: LeadStatus;
+  stripe_customer_id: string | null;
+  notes: string | null;
+};
+
+export type Payment = {
+  id: string;
+  created_at: string;
+  lead_id: string;
+  milestone: PaymentMilestone;
+  amount: number;
+  stripe_session_id: string | null;
+  stripe_invoice_id: string | null;
+  paid_at: string | null;
+};
+
 type Rel<Name extends string, Column extends string, Referenced extends string> = {
   foreignKeyName: Name;
   columns: [Column];
@@ -201,6 +244,17 @@ export interface Database {
           Rel<"generated_documents_questionnaire_response_id_fkey", "questionnaire_response_id", "questionnaire_responses">,
           Rel<"generated_documents_template_id_fkey", "template_id", "document_templates">,
         ]
+      >;
+      leads: Table<
+        Lead,
+        Partial<Lead> & { name: string; email: string; quote_json: LeadQuoteJson; quote_total: number },
+        Partial<Lead>
+      >;
+      payments: Table<
+        Payment,
+        Partial<Payment> & { lead_id: string; milestone: PaymentMilestone; amount: number },
+        Partial<Payment>,
+        [Rel<"payments_lead_id_fkey", "lead_id", "leads">]
       >;
     };
     Views: Record<string, never>;
