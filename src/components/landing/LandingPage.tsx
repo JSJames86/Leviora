@@ -129,12 +129,15 @@ export default function LandingPage() {
           initial={{ opacity: 0, x: 16 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
-          className="absolute right-6 sm:right-8 top-1/2 z-10 select-none"
+          className="absolute right-6 sm:right-8 top-1/2 z-10"
           style={{ writingMode: "vertical-rl", transform: "translateY(-50%) rotate(180deg)" }}
         >
-          <span className="font-heading text-sm sm:text-base tracking-[0.45em] uppercase text-white/50">
+          <Link
+            href="/about"
+            className="font-heading text-sm sm:text-base tracking-[0.45em] uppercase text-white/50 transition-colors hover:text-white/80"
+          >
             Ventures
-          </span>
+          </Link>
         </motion.div>
 
         <div className="absolute bottom-0 left-0 right-0 z-10 px-6 sm:px-10 pb-12 sm:pb-14">
