@@ -75,16 +75,29 @@ function Nav() {
         >
           Leviora Ventures
         </motion.span>
-        <Link
-          href="/login"
-          className="text-xs font-medium tracking-wider uppercase transition-colors px-4 py-1.5 rounded-full border"
-          style={{
-            color: scrolled ? "#1a3347" : "rgba(255,255,255,0.85)",
-            borderColor: scrolled ? "rgba(26,51,71,0.25)" : "rgba(255,255,255,0.35)",
-          }}
-        >
-          Sign In
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/quote"
+            className="text-xs font-medium tracking-wider uppercase transition-colors px-4 py-1.5 rounded-full border"
+            style={{
+              color: scrolled ? "#f0f8fd" : "#1a3347",
+              borderColor: scrolled ? "#1a3347" : "rgba(255,255,255,0.9)",
+              backgroundColor: scrolled ? "#1a3347" : "rgba(255,255,255,0.9)",
+            }}
+          >
+            Get a Quote
+          </Link>
+          <Link
+            href="/login"
+            className="text-xs font-medium tracking-wider uppercase transition-colors px-4 py-1.5 rounded-full border"
+            style={{
+              color: scrolled ? "#1a3347" : "rgba(255,255,255,0.85)",
+              borderColor: scrolled ? "rgba(26,51,71,0.25)" : "rgba(255,255,255,0.35)",
+            }}
+          >
+            Sign In
+          </Link>
+        </div>
       </div>
     </motion.header>
   );
