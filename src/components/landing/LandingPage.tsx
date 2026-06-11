@@ -10,6 +10,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Nav } from "./Nav";
 import { FadeUp } from "./FadeUp";
 import { VenturesRail } from "./VenturesRail";
+import { Footer } from "./Footer";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -403,13 +404,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer className="border-t border-[#1a3347]/[0.08]" style={{ background: "#e8f5fc" }}>
-        <div className="mx-auto max-w-7xl px-6 h-14 flex items-center justify-between">
-          <Image src="/logo-black.png" alt="Leviora Ventures" width={80} height={32} className="h-6 w-auto opacity-40" />
-          <p className="text-xs tracking-wider text-[#1a3347]/30 uppercase">© {new Date().getFullYear()} Leviora Ventures</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

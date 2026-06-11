@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import Script from "next/script";
 import { Nav } from "@/components/landing/Nav";
 import { FadeUp } from "@/components/landing/FadeUp";
+import { Footer } from "@/components/landing/Footer";
 
 const CALENDLY_URL = "https://calendly.com/levioraventures";
 
@@ -167,7 +167,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── Ventures grid ── */}
-      <section className="mx-auto max-w-6xl px-6 pb-28">
+      <section id="ventures" className="mx-auto max-w-6xl px-6 pb-28 scroll-mt-20">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
           {VENTURES.map((v, i) => (
             <FadeUp key={v.name} delay={i * 0.08}>
@@ -276,13 +276,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer className="border-t border-[#1a3347]/[0.08]" style={{ background: "#e8f5fc" }}>
-        <div className="mx-auto max-w-7xl px-6 h-14 flex items-center justify-between">
-          <Image src="/logo-black.png" alt="Leviora Ventures" width={80} height={32} className="h-6 w-auto opacity-40" />
-          <p className="text-xs tracking-wider text-[#1a3347]/30 uppercase">© {new Date().getFullYear()} Leviora Ventures</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

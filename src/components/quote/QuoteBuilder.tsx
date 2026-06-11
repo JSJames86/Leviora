@@ -138,7 +138,7 @@ export default function QuoteBuilder() {
           </section>
 
           {/* Formation */}
-          <section>
+          <section id="formation">
             <h2 className="font-heading text-xl font-semibold text-text-primary">Formation</h2>
             <p className="mb-2 text-sm text-text-secondary">Pick one — state fees added automatically.</p>
 
@@ -178,7 +178,7 @@ export default function QuoteBuilder() {
           </section>
 
           {/* Digital */}
-          <section>
+          <section id="digital">
             <h2 className="font-heading text-xl font-semibold text-text-primary">Digital</h2>
             <p className="mb-2 text-sm text-text-secondary">Websites are either/or — pick the tier that fits.</p>
             <div className="rounded-lg border border-border bg-surface px-3">
@@ -191,7 +191,7 @@ export default function QuoteBuilder() {
           </section>
 
           {/* Capital readiness */}
-          <section>
+          <section id="capital">
             <h2 className="font-heading text-xl font-semibold text-text-primary">Capital readiness</h2>
             <p className="mb-2 text-sm text-text-secondary">Get fundable — grants, contracts, and credit.</p>
             <div className="rounded-lg border border-border bg-surface px-3">
@@ -204,7 +204,7 @@ export default function QuoteBuilder() {
           </section>
 
           {/* Advisory */}
-          <section>
+          <section id="advisory">
             <h2 className="font-heading text-xl font-semibold text-text-primary">Advisory & systems</h2>
             <div className="mt-2 rounded-lg border border-border bg-surface px-3">
               {ADVISORY.map((a) => (
