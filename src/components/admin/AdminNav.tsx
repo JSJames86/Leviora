@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { GaugeIcon, UsersIcon, FileCheckIcon } from "@/components/ui/icons";
+import { GaugeIcon, UsersIcon, FileCheckIcon, SparkleIcon } from "@/components/ui/icons";
 
 const NAV_ITEMS = [
   { href: "/admin", label: "Dashboard", icon: GaugeIcon },
   { href: "/admin/clients", label: "Clients", icon: UsersIcon },
   { href: "/admin/documents", label: "Documents", icon: FileCheckIcon },
+  { href: "/admin/library", label: "Library", icon: SparkleIcon },
 ];
 
 function isActive(pathname: string, href: string) {
