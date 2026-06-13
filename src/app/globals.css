@@ -12,6 +12,25 @@
   --color-success: #7bc4a0;
   --color-warning: #f0d9a8;
   --color-error: #e8a0a0;
+
+  /* Template library semantic roles — see lib/library/roles.ts. Defaults
+     below mirror the Leviora reference palette so library components match
+     the current site when rendered outside a PaletteProvider. */
+  --color-text: var(--color-text-primary);
+  --color-text-muted: var(--color-text-secondary);
+
+  /* Generated 50..900 scale for --color-primary — see lib/library/shades.ts.
+     PaletteProvider overrides these per-instance for any chosen palette. */
+  --color-primary-50: #e6f1f6;
+  --color-primary-100: #d9e9f2;
+  --color-primary-200: #bfdbe9;
+  --color-primary-300: #a5cde1;
+  --color-primary-400: #89bfd8;
+  --color-primary-500: #6ea4bc;
+  --color-primary-600: #567d8f;
+  --color-primary-700: #3e5864;
+  --color-primary-800: #28363c;
+  --color-primary-900: #121619;
 }
 
 @theme inline {
@@ -26,6 +45,19 @@
   --color-success: var(--color-success);
   --color-warning: var(--color-warning);
   --color-error: var(--color-error);
+
+  --color-text: var(--color-text);
+  --color-text-muted: var(--color-text-muted);
+  --color-primary-50: var(--color-primary-50);
+  --color-primary-100: var(--color-primary-100);
+  --color-primary-200: var(--color-primary-200);
+  --color-primary-300: var(--color-primary-300);
+  --color-primary-400: var(--color-primary-400);
+  --color-primary-500: var(--color-primary-500);
+  --color-primary-600: var(--color-primary-600);
+  --color-primary-700: var(--color-primary-700);
+  --color-primary-800: var(--color-primary-800);
+  --color-primary-900: var(--color-primary-900);
 
   --font-heading: var(--font-cormorant);
   --font-sans: var(--font-inter);

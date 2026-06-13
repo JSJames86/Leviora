@@ -1,4 +1,5 @@
 import type { ComputedQuote, MilestonePlan, QuoteSelection } from "@/lib/quote/compute";
+import type { PaletteTokens } from "@/lib/library/roles";
 
 export type UserRole = "admin" | "client";
 
@@ -155,12 +156,49 @@ export type Payment = {
   paid_at: string | null;
 };
 
-type Rel<Name extends string, Column extends string, Referenced extends string> = {
+export type LibraryCategory = "hero" | "pricing" | "cta" | "portal" | "media-kit";
+
+/** Catalog row for a template library component. Metadata only — the
+ * component itself lives in lib/library/registry.ts, joined by `slug`. */
+export type Template = {
+  id: string;
+  slug: string;
+  name: string;
+  category: string;
+  tags: string[];
+  preview_image: string | null;
+  prompt: string | null;
+  version: number;
+  created_at: string;
+  updated_at: string;
+};
+
+/** Semantic color palette — base roles only, shades are generated at render time. */
+export type Palette = {
+  id: string;
+  name: string;
+  owner: string;
+  tokens: PaletteTokens;
+  created_at: string;
+};
+
+/** Links a client engagement to a template + palette, with optional per-instance copy overrides. */
+export type ProjectTemplate = {
+  id: string;
+  engagement_id: string;
+  template_slug: string;
+  palette_id: string;
+  content: Record<string, unknown> | null;
+  sort_order: number;
+  created_at: string;
+};
+
+type Rel<Name extends string, Column extends string, Referenced extends string, ReferencedColumn extends string = "id"> = {
   foreignKeyName: Name;
   columns: [Column];
   isOneToOne: false;
   referencedRelation: Referenced;
-  referencedColumns: ["id"];
+  referencedColumns: [ReferencedColumn];
 };
 
 type Table<Row, Insert, Update, Relationships extends readonly unknown[] = []> = {
@@ -255,6 +293,18 @@ export interface Database {
         Partial<Payment> & { lead_id: string; milestone: PaymentMilestone; amount: number },
         Partial<Payment>,
         [Rel<"payments_lead_id_fkey", "lead_id", "leads">]
+      >;
+      templates: Table<Template, Partial<Template> & { slug: string; name: string; category: string }, Partial<Template>>;
+      palettes: Table<Palette, Partial<Palette> & { name: string; tokens: PaletteTokens }, Partial<Palette>>;
+      project_templates: Table<
+        ProjectTemplate,
+        Partial<ProjectTemplate> & { engagement_id: string; template_slug: string; palette_id: string },
+        Partial<ProjectTemplate>,
+        [
+          Rel<"project_templates_engagement_id_fkey", "engagement_id", "engagements">,
+          Rel<"project_templates_template_slug_fkey", "template_slug", "templates", "slug">,
+          Rel<"project_templates_palette_id_fkey", "palette_id", "palettes">,
+        ]
       >;
     };
     Views: Record<string, never>;
