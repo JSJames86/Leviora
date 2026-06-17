@@ -44,6 +44,13 @@ export function Nav({ solid = false }: { solid?: boolean }) {
             About
           </Link>
           <Link
+            href="/services/nonprofits"
+            className="text-xs font-medium tracking-wider uppercase transition-opacity hover:opacity-70"
+            style={{ color: scrolled ? "#1a3347" : "rgba(255,255,255,0.85)" }}
+          >
+            Nonprofits
+          </Link>
+          <Link
             href="/quote"
             className="text-xs font-medium tracking-wider uppercase transition-colors px-4 py-1.5 rounded-full border"
             style={{
