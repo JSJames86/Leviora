@@ -1,0 +1,22 @@
+name: Supabase Keepalive
+
+on:
+  schedule:
+    - cron: '0 9 * * 1,4'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Read from keepalive table
+        run: |
+          STATUS=$(curl -s -o /dev/null -w '%{http_code}' \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/keepalive?select=pinged_at&limit=1")
+          echo "HTTP status: $STATUS"
+          if [ "$STATUS" -ge 400 ]; then
+            echo "::error::Keepalive ping failed with HTTP $STATUS"
+            exit 1
+          fi
