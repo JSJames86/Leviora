@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -29,7 +30,10 @@ export default function RootLayout({
       <head>
         <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css" />
       </head>
-      <body className="min-h-full flex flex-col bg-background text-text-primary">{children}</body>
+      <body className="min-h-full flex flex-col bg-background text-text-primary">
+        {children}
+        <SpeedInsights />
+      </body>
     </html>
   );
 }
