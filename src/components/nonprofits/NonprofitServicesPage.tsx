@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import Script from "next/script";
 import { Nav } from "@/components/landing/Nav";
 import { FadeUp } from "@/components/landing/FadeUp";
@@ -298,14 +299,22 @@ export default function NonprofitServicesPage() {
               </p>
             </FadeUp>
             <FadeUp delay={0.14}>
-              <a
-                href="https://seedandspoon.org"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center text-xs font-semibold tracking-wider uppercase px-6 py-3 rounded-sm border border-[#1a3347]/25 text-[#1a3347]/70 hover:border-[#1a3347]/50 hover:text-[#1a3347] transition-colors"
-              >
-                Visit seedandspoon.org &rarr;
-              </a>
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href="/case-studies/seed-and-spoon"
+                  className="inline-flex items-center justify-center text-xs font-semibold tracking-wider uppercase px-6 py-3 rounded-sm bg-[#1a3347] text-white hover:bg-[#243e55] transition-colors"
+                >
+                  Read the full case study &rarr;
+                </Link>
+                <a
+                  href="https://seedandspoon.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center text-xs font-semibold tracking-wider uppercase px-6 py-3 rounded-sm border border-[#1a3347]/25 text-[#1a3347]/70 hover:border-[#1a3347]/50 hover:text-[#1a3347] transition-colors"
+                >
+                  Visit seedandspoon.org &rarr;
+                </a>
+              </div>
             </FadeUp>
           </div>
           <div className="sm:col-span-2">
